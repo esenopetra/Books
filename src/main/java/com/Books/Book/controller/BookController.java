@@ -48,7 +48,7 @@ public class BookController {
     }
     @PostMapping("/addBooks")
     public void addBook(){}
-    @PostMapping
+    @PostMapping("/updateBooks")
     public void updateBookById(){}
     @DeleteMapping
     public void deleteBookById(){}
