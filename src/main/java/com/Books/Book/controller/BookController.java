@@ -46,7 +46,7 @@ public class BookController {
         }
 
     }
-    @PostMapping
+    @PostMapping("/addBook")
     public void addBook(){}
     @PostMapping
     public void updateBookById(){}
