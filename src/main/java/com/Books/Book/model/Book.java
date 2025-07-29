@@ -3,7 +3,8 @@ package com.Books.Book.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.Data;
+
 
 @Entity
 @Table(name = "Books")
@@ -12,6 +13,7 @@ import lombok.*;
 //@Setter
 //@Getter
 //@ToString
+@Data
 public class Book {
     @Id
     private long id;
