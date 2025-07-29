@@ -4,7 +4,6 @@ import com.Books.Book.model.Book;
 import com.Books.Book.repository.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,9 +46,40 @@ public class BookController {
 
     }
     @PostMapping("/addBooks")
-    public void addBook(){}
+    public ResponseEntity<Book> addBook(@RequestBody Book book){
+        try{
+            Book book1 = bookRepo.save(book);
+            return new ResponseEntity<>(book1 , HttpStatus.CREATED);
+        }catch(Exception e){return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);}
+
+    }
     @PostMapping("/updateBooks/{id}")
-    public void updateBookById(@PathVariable long id){}
-    @DeleteMapping
-    public void deleteBookById(){}
+    public ResponseEntity<Book> updateBookById(@PathVariable long id, @RequestBody Book update_value){
+        try{
+            Optional<Book> bookData = bookRepo.findById(id);
+            if(bookData.isPresent()){
+                Book toUpdate = bookData.get();
+               toUpdate.setBookName(update_value.getBookName());
+               toUpdate.setBookSummary(update_value.getBookSummary());
+               toUpdate.setAuthor(update_value.getAuthor());
+
+                Book book1 = bookRepo.save(toUpdate);
+                return new ResponseEntity<>(book1,HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteBookById(@PathVariable long id){
+        try{
+            Optional<Book> bookData = bookRepo.findById(id);
+            if(bookData.isPresent()){
+               bookRepo.deleteById(id);
+               return new ResponseEntity<>(HttpStatus.GONE);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); }
+
+    }
 }
