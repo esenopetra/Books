@@ -48,8 +48,8 @@ public class BookController {
     }
     @PostMapping("/addBooks")
     public void addBook(){}
-    @PostMapping("/updateBooks")
-    public void updateBookById(){}
+    @PostMapping("/updateBooks/{id}")
+    public void updateBookById(@PathVariable long id){}
     @DeleteMapping
     public void deleteBookById(){}
 }
